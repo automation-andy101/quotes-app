@@ -55,7 +55,7 @@
 }
 
 .quote-text {
-    font-size: claml(1.6rem 2cqi, 2.5rem);
+    font-size: clamp(1.6rem 2cqi, 2.5rem);
     color: #ddd;
     line-height: 3rem;
     text-align: center;
@@ -72,6 +72,11 @@
 .right-quote {
     text-align: right;
 }
+
+.quote p {
+    font-size: 1.8rem;
+}
+
 
 .buttons {
     position: absolute;
