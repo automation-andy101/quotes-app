@@ -38,6 +38,22 @@ const fetchNewQuote = async () => {
           <button className="btn btn-new" onClick={fetchNewQuote}>New Quote</button>
           <button className="btn btn-fav">Add to Favourites</button>
         </div>
+        <div className="favourites">
+          <button className="btn-close">
+            <i className="bx bx-x"></i>
+          </button>
+          <div className="fav-quote">
+            <div className="fav-quote-delete">
+              <i className="bx bx-x-circle"></i>
+            </div>
+          </div>
+          <div className="fav-quote-content">
+            <div className="fav-quote-text">
+              Ask not what your country can do for you, but what you can do for your country
+            </div>
+            <div className="fav-quote-author">John F Kennedy</div>
+          </div>
+        </div>
       </div>
     </div>
   )
