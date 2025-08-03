@@ -6,22 +6,38 @@ const QuotesApp = () => {
   const [quote, setQuote] = useState({
     text: "Ask not what your country can do for you, but what you can do for your country",
     author: "John F Kenedy"
-})
-
-const fetchNewQuote = async () => {
-  const response = await fetch(`${baseUrl}/random`)
-  const data = await response.json()
-  setQuote({
-    text: data.content,
-    author: data.author
   })
-}
+
+  const [favourites, setFavourites] = useState([])
+
+  const [showFavourites, setShowFavourites] = useState(false)
+
+  const fetchNewQuote = async () => {
+    const response = await fetch(`${baseUrl}/random`)
+    const data = await response.json()
+    setQuote({
+      text: data.content,
+      author: data.author
+    })
+  }
+
+  const toggleFavourites = () => {
+    setShowFavourites(!showFavourites)
+  }
+
+  const addToFavourite = () => {
+    const isAlreadyInFavourites = favourites.some((fav) => fav.text === quote.text && fav.author === quote.author)
+
+    if (!isAlreadyInFavourites) {
+      setFavourites([...favourites, quote])
+    }
+  }
 
   return (
     <div className='container'>
       <div className="quotes-app">
         <h1 className="app-heading">Quotes.</h1>
-        <i className="bx bxs-heart fav-icon"></i>
+        <i className="bx bxs-heart fav-icon" onClick={toggleFavourites}></i>
         <div className="quote">
           <i className="bx bxs-quote-left left-quote"></i>
           <p className="quote-text">{quote.text}</p>
@@ -36,24 +52,29 @@ const fetchNewQuote = async () => {
         </div>
         <div className="buttons">
           <button className="btn btn-new" onClick={fetchNewQuote}>New Quote</button>
-          <button className="btn btn-fav">Add to Favourites</button>
+          <button className="btn btn-fav" onClick={addToFavourite}>Add to Favourites</button>
         </div>
-        <div className="favourites">
-          <button className="btn-close">
-            <i className="bx bx-x"></i>
-          </button>
-          <div className="fav-quote">
-            <div className="fav-quote-delete">
-              <i className="bx bx-x-circle"></i>
-            </div>
+        {showFavourites && (
+          <div className="favourites">
+            <button className="btn-close" onClick={toggleFavourites}>
+              <i className="bx bx-x"></i>
+            </button>
+            {favourites.map((favQuote, index) => (
+              <div className="fav-quote" key={index}>
+                <div className="fav-quote-delete" onClick={() => {
+                  const updatedFavourites = favourites.filter((item, i) => i !== index)
+                  setFavourites(updatedFavourites)
+                }}>
+                  <i className="bx bx-x-circle"></i>
+                </div>
+                <div className="fav-quote-content">
+                  <div className="fav-quote-text">{favQuote.text}</div>
+                  <div className="fav-quote-author">{favQuote.author}</div>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="fav-quote-content">
-            <div className="fav-quote-text">
-              Ask not what your country can do for you, but what you can do for your country
-            </div>
-            <div className="fav-quote-author">John F Kennedy</div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   )
